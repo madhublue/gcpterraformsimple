@@ -1,0 +1,5 @@
+.terraform 
+.terraform.lock.hcl
+terraform.tfstate
+terraform.tfstate.backup
+localkitchen101-08aa9be91899.json
