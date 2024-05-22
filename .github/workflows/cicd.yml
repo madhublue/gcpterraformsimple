@@ -31,7 +31,8 @@ jobs:
       run: 'gcloud info'
     
     - name: Copy the gcloud sa key to Home
-      run: 'echo ${{ secrets.GCP_SA_KEY }} > $HOME/gcloud-sa-key.json'
+      run: |
+        echo "${{ secrets.GCP_SA_KEY }}" > "${HOME}/gcloud-sa-key.json"
 
 
     # - name: Authenticate to Google Cloud
