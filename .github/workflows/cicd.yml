@@ -13,20 +13,30 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Set up Cloud SDK
-      uses: google-github-actions/setup-gcloud@v1
+    - name: Auth the Google Cloud SDK
+      id: 'auth'
+      uses: 'google-github-actions/auth@v2'
       with:
-        version: 'latest'
-        service_account_key: ${{ secrets.GCP_SA_KEY }}
+        credentials_json: '${{ secrets.GCP_SA_KEY }}'
         project_id: ${{ secrets.GCP_PROJECT_ID }}
 
-    - name: Authenticate to Google Cloud
-      run: |
-        echo "${{ secrets.GCP_SA_KEY }}" | base64 --decode > "${HOME}/gcloud-key.json"
-        gcloud auth activate-service-account --key-file="${HOME}/gcloud-key.json"
-        gcloud config set project ${{ secrets.GCP_PROJECT_ID }}
-        gcloud config set compute/region ${{ secrets.GCP_REGION }}
-        gcloud config set compute/zone ${{ secrets.GCP_REGION }}-a
+    - name: Set up Cloud SDK
+      uses: 'google-github-actions/setup-gcloud@v2'
+      with:
+        project_id: ${{ secrets.GCP_PROJECT_ID }}
+        service_account_key: ${{ secrets.GCP_SA_KEY }}
+        export_default_credentials: true
+
+    - name: Use gcloud CLI
+      run: 'gcloud info'
+
+    # - name: Authenticate to Google Cloud
+    #   run: |
+    #     echo "${{ secrets.GCP_SA_KEY }}" | base64 --decode > "${HOME}/gcloud-key.json"
+    #     gcloud auth activate-service-account --key-file="${HOME}/gcloud-key.json"
+    #     gcloud config set project ${{ secrets.GCP_PROJECT_ID }}
+    #     gcloud config set compute/region ${{ secrets.GCP_REGION }}
+    #     gcloud config set compute/zone ${{ secrets.GCP_REGION }}-a
 
     - name: Build and push Docker image
       run: |
