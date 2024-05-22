@@ -30,8 +30,8 @@ resource "google_project_service" "container_registry" {
   service = "containerregistry.googleapis.com"
 }
 
-resource "google_cloud_run_service" "fastapi_service_sample" {
-  name     = "fastapi-service-sample"
+resource "google_cloud_run_service" "fastapi_gcp_first" {
+  name     = "fastapi_gcp_first"
   location = var.region
 
   template {
@@ -54,8 +54,8 @@ resource "google_cloud_run_service" "fastapi_service_sample" {
 }
 
 resource "google_cloud_run_service_iam_binding" "invoker" {
-  location = google_cloud_run_service.fastapi_service_sample.location
-  service  = google_cloud_run_service.fastapi_service_sample.name
+  location = google_cloud_run_service.fastapi_gcp_first.location
+  service  = google_cloud_run_service.fastapi_gcp_first.name
 
   role    = "roles/run.invoker"
   members = ["allUsers"]
@@ -64,7 +64,7 @@ resource "google_cloud_run_service_iam_binding" "invoker" {
 
 
 output "service_url" {
-  value = google_cloud_run_service.fastapi_service_sample.status[0].url
+  value = google_cloud_run_service.fastapi_gcp_first.status[0].url
 }
 
 
