@@ -1,17 +1,17 @@
 from fastapi import FastAPI
-
+from fastapi.responses import FileResponse
 app = FastAPI()
 
 @app.get("/greeting")
 def read_greeting():
-    return {"greeting": "Hello World"}
+    return {"message": "Hello World"}
 
 
-# serve a static index.html file from the root path
 
+# For the root of /  change the response type to HTML and serve the index.html file
 @app.get("/")
 def read_root():
-    # read the index.html file
-    with open("index.html", "r") as file:
-        return file.read()
+    return FileResponse("index.html", media_type="text/html")
+
+
     
