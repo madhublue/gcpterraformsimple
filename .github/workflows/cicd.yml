@@ -64,4 +64,4 @@ jobs:
       working-directory: .
       env:
         # use the credentials from the file saved above 
-        GOOGLE_APPLICATION_CREDENTIALS: $HOME/gcloud-sa-key.json
+        GOOGLE_APPLICATION_CREDENTIALS: ${HOME}/gcloud-sa-key.json
