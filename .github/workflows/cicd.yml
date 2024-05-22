@@ -32,7 +32,7 @@ jobs:
     
     - name: Copy the gcloud sa key to Home
       run: |
-        echo "${{ secrets.GCP_SA_KEY }}" > "${HOME}/gcloud-sa-key.json"
+        echo "${{ secrets.GCP_SA_KEY }}" > "${{ github.workspace }}/gcloud-key.json"
 
 
     # - name: Authenticate to Google Cloud
@@ -64,4 +64,4 @@ jobs:
       working-directory: .
       env:
         # use the credentials from the file saved above 
-        GOOGLE_APPLICATION_CREDENTIALS: ${HOME}/gcloud-sa-key.json
+        GOOGLE_APPLICATION_CREDENTIALS: "${{ github.workspace }}/gcloud-key.json"
