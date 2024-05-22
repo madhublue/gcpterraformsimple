@@ -1,0 +1,43 @@
+name: Build and Deploy to Cloud Run
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Cloud SDK
+      uses: google-github-actions/setup-gcloud@v1
+      with:
+        version: 'latest'
+        service_account_key: ${{ secrets.GCP_SA_KEY }}
+        project_id: ${{ secrets.GCP_PROJECT_ID }}
+
+    - name: Build and push Docker image
+      run: |
+        gcloud builds submit --tag us-central1-docker.pkg.dev/localkitchen101/lk-docker-repo/fastapi:$GITHUB_SHA
+
+    - name: Set up Terraform
+      if: success() # Ensure this step runs only if the previous step succeeded
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_wrapper: false
+
+    - name: Terraform Init
+      if: success() # Ensure this step runs only if the previous step succeeded
+      run: terraform init
+      working-directory: ./terraform
+
+    - name: Terraform Apply
+      if: success() # Ensure this step runs only if the previous step succeeded
+      run: terraform apply -auto-approve -var="project_id=${{ secrets.GCP_PROJECT_ID }}" -var="region=${{ secrets.GCP_REGION }}"  -var="commit_sha=${{ github.sha }}"
+      working-directory: ./terraform
+      env:
+        GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}

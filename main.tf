@@ -3,20 +3,23 @@ variable "project_id" {
   
 }
 // create const for image tagg and use in  resources
-variable "image_tag" {
-  description = "The image tag"
-}
+
 variable "region" {
   description = "The region where the Cloud Run service will be deployed"
   default     = "us-central1"
   
 }
 
+variable "commit_sha" {
+   description = "commit hash of the github repo"
+}
+
 
 provider "google" {
   project = var.project_id
   region  = var.region
-  credentials = file("localkitchen101-08aa9be91899.json")
+  // in local uncomment the below line
+  // credentials = file("localkitchen101-08aa9be91899.json")
 }
 
 resource "google_project_service" "cloud_run" {
@@ -35,7 +38,7 @@ resource "google_cloud_run_service" "fastapi_service_sample" {
     spec {
       containers {
         
-        image = "us-central1-docker.pkg.dev/localkitchen101/lk-docker-repo/fastapi:1.1"
+        image = "us-central1-docker.pkg.dev/localkitchen101/lk-docker-repo/fastapi:${var.commit_sha}"
         
 
       }
