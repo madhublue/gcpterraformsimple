@@ -51,11 +51,11 @@ jobs:
     - name: Terraform Init
       if: success() # Ensure this step runs only if the previous step succeeded
       run: terraform init
-      working-directory: ./terraform
+      working-directory: .
 
     - name: Terraform Apply
       if: success() # Ensure this step runs only if the previous step succeeded
       run: terraform apply -auto-approve -var="project_id=${{ secrets.GCP_PROJECT_ID }}" -var="region=${{ secrets.GCP_REGION }}"  -var="commit_sha=${{ github.sha }}"
-      working-directory: ./terraform
+      working-directory: .
       env:
         GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
