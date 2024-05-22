@@ -31,7 +31,7 @@ resource "google_project_service" "container_registry" {
 }
 
 resource "google_cloud_run_service" "fastapi_gcp_first" {
-  name     = "fastapi_gcp_first"
+  name     = "fastapi-gcp-first"
   location = var.region
 
   template {
