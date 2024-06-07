@@ -55,7 +55,7 @@ jobs:
 
     - name: Terraform Init
       if: success() # Ensure this step runs only if the previous step succeeded
-      run: terraform init
+      run: terraform init --backend-config="bucket=${{ secrets.GCP_BUCKET_NAME }}" --backend-config="prefix=terraform/state" -reconfigure
       working-directory: .
       env:
         GOOGLE_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}

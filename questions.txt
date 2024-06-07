@@ -1,0 +1,34 @@
+1) Cloud Run --> docker file --> it will host in a shared space only when requests come (serverless  )
+
+url ==> image of your container and deploy in to a google managed shared vm
+
+100 milliseconds --> vm
+500 milliseconds 
+
+600 milliseconds --> charge 
+300 to 5 seconds -->
+
+--- vm 
+managed  (vm)
+kubernetes == docker image --> lens tool 
+
+cluster == group of servers 
+
+10 servers 
+
+minimum -- 3 pod --
+max = 20 pod
+---------------------
+
+Scalability 
+Resiliency --> failure ==> retry
+
+lamda functions -- size 
+10 mb 
+js function 
+python
+
+
+
+
+

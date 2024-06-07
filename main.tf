@@ -1,3 +1,10 @@
+terraform {
+  backend "gcs" {
+    bucket  = "garbagebucket"
+    prefix  = "terraform/state"
+  }
+}
+
 variable "project_id" {
   description = "The project ID"
   
