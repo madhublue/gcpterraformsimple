@@ -27,8 +27,19 @@ lamda functions -- size
 10 mb 
 js function 
 python
+------------
+
+--old server
+--button-- server 
 
 
+--simple html
+== client ()
 
+-- complex html
+== simple interactions by react
+
+
+3) nextjs (react) remix (React) --> server side rendering 
 
 
