@@ -24,9 +24,12 @@ FROM python:3.8-slim
 
 # Set the working directory in the container
 WORKDIR /app
+RUN pwd 
+
+RUN ls -la 
 
 # copy the frontend build to the working directory/ui
-COPY --from=build /app/frontend/build /app/ui
+RUN cp -r ./frontend/build ./ui/
 
 # Copy the dependencies file to the working directory
 COPY app/requirements.txt .
