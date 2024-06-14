@@ -1,10 +1,32 @@
 # Dockerfile
 
+# Use an official Node runtime as the parent image to build React app
+FROM node:18 AS build
+
+# Set the working directory to /app
+WORKDIR /app
+
+
+
+# Change working directory to created React app: /app/frontend
+WORKDIR /app/frontend
+
+# Copy the current directory contents into the container at /app/frontend
+COPY frontend/package.json /app/frontend/package.json 
+RUN npm install
+
+# Build the React app for production
+COPY frontend ./
+RUN npm run build
+
 # Use the official Python image
 FROM python:3.8-slim
 
 # Set the working directory in the container
 WORKDIR /app
+RUN pwd 
+
+
 
 # Copy the dependencies file to the working directory
 COPY app/requirements.txt .
@@ -14,6 +36,12 @@ RUN pip install -r requirements.txt
 
 # Copy the content of the local src directory to the working directory
 COPY app/ .
+
+COPY --from=build /app/frontend/dist /app/ui
+
+
+# Expose the port 80 to the outside world
+EXPOSE 80
 
 # Command to run on container start
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"]
