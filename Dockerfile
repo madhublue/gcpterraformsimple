@@ -26,11 +26,7 @@ FROM python:3.8-slim
 WORKDIR /app
 RUN pwd 
 
-RUN ls -la /app 
-RUN ls -la /app/frontend
 
-# copy the frontend dist to the working directory/ui
-RUN cp -r /app/frontend/dist /app/ui/
 
 # Copy the dependencies file to the working directory
 COPY app/requirements.txt .
@@ -41,8 +37,8 @@ RUN pip install -r requirements.txt
 # Copy the content of the local src directory to the working directory
 COPY app/ .
 
-# Copy the React app build from the build stage
-COPY --from=build /app/frontend/build /app/frontend/build
+COPY --from=build /app/frontend/dist /app/ui
+
 
 # Expose the port 80 to the outside world
 EXPOSE 80
