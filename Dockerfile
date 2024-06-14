@@ -26,10 +26,11 @@ FROM python:3.8-slim
 WORKDIR /app
 RUN pwd 
 
-RUN ls -la 
+RUN ls -la /app 
+RUN ls -la /app/frontend
 
-# copy the frontend build to the working directory/ui
-RUN cp -r ./frontend/build ./ui/
+# copy the frontend dist to the working directory/ui
+RUN cp -r /app/frontend/dist /app/ui/
 
 # Copy the dependencies file to the working directory
 COPY app/requirements.txt .
